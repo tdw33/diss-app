@@ -15,7 +15,7 @@ function App() {
   //questions with hints
   return (
     <CanvasProvider>
-      <Router>
+      <Router forceRefresh={true}>
         <Navbar />
         <Switch>
           <Route exact path="/">

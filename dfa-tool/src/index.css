@@ -14,7 +14,7 @@ Variabless
   --clr-primary-5: hsl(118, 22%, 75%);
   /* lighter shades of primary color */
   --clr-primary-6: hsl(205, 89%, 70%);
-  --clr-primary-7: hsl(205, 90%, 76%);
+  --clr-primary-7: hsl(118, 14%, 47%);
   --clr-primary-8: hsl(205, 86%, 81%);
   --clr-primary-9: hsl(205, 90%, 88%);
   --clr-primary-10: hsl(205, 100%, 96%);
@@ -76,7 +76,7 @@ h2,
 h3,
 h4 {
   letter-spacing: var(--spacing);
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   line-height: 1.25;
   margin-bottom: 0.75rem;
 }
@@ -160,17 +160,109 @@ nav {
 .canvas {
   display: block;
   max-width: 800px;
-  background: lightgrey;
+  background: var(--clr-white);
   border-radius: 20px;
   -moz-border-radius: 20px;
   margin: 10px auto;
 }
-
 .button {
   position: absolute;
   top: 75px;
   right: 570px;
-  /* left: 20px; */
+  background: white;
+  color: black;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+  border-radius: var(--radius);
+  transition: var(--transition);
+  border-color: var(--clr-primary-5);
+  cursor: pointer;
+}
+.button:hover {
+  background: var(--clr-primary-5);
+  color: var(--clr-white);
+}
+.qcontainer {
+  display: block;
+  max-width: 800px;
+  background: white;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  margin: 10px auto;
+}
+.questions {
+  display: block;
+  text-align: center;
+}
+.title {
+  text-align: center;
+  text-transform: uppercase;
+  color: hsl(118, 22%, 75%);
+}
+.questionnumber {
+  margin-bottom: 0.5rem;
+}
+.formbtn {
+  display: flex;
+  align-items: center;
+}
+.underline {
+  height: 0.25rem;
+  width: 5rem;
+  background: var(--clr-primary-5);
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0.75rem;
+}
+.underline2 {
+  height: 0.25rem;
+  width: 30rem;
+  background: black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+.regex {
+  margin-bottom: 0.75rem;
+}
+.lower {
+  text-transform: lowercase;
+  display: inline;
+}
+.prev-btn,
+.next-btn {
+  color: var(--clr-primary-5);
+  font-size: 1.25rem;
+  background: transparent;
+  border-color: transparent;
+  margin: 0 0.5rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.prev-btn:hover,
+.next-btn:hover {
+  color: var(--clr-primary-7);
+}
+.form {
+  background: var(--clr-white);
+  max-width: var(--fixed-width);
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  padding: 1rem 2rem;
+  border-radius: var(--radius);
+}
+.form input {
+  background: var(--clr-grey-10);
+  border-color: transparent;
+  border-radius: var(--radius);
+  padding: 0.25rem 0.5rem;
+}
+.form-control {
+  margin: 0.5rem 0;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  align-items: center;
 }
 a {
   color: black;
