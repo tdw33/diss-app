@@ -1,4 +1,5 @@
 import React, { useContext, useRef, useState } from "react";
+import questions from "./data";
 
 
 const TestContext = React.createContext();
@@ -8,6 +9,8 @@ export const CanvasProvider = ({ children }) => {
   const [isRunning, setIsRunning] = useState(false);
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
+   const [index, setIndex] = useState(0);
+  const { regex } = questions[index];
 
   var selectedObj = null;
   var model;
@@ -87,6 +90,12 @@ export const CanvasProvider = ({ children }) => {
     state(mousePos.x, mousePos.y);
   };
 
+  const currentRegex = (index) => {
+   
+  console.log(regex)
+  return regex
+}
+
   // what gets returned to the canvas
   return (
     <TestContext.Provider
@@ -101,6 +110,7 @@ export const CanvasProvider = ({ children }) => {
         state,
         acceptingState,
         dblClick,
+        currentRegex,
       }}
     >
       {children}
@@ -108,4 +118,7 @@ export const CanvasProvider = ({ children }) => {
   );
 };
 
+
+
 export const useCanvas = () => useContext(TestContext);
+
