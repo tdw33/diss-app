@@ -12,6 +12,12 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // To parse the incoming requests with JSON payloads
 
+// ... other imports
+const path = require("path");
+
+// ... other app.use middleware
+app.use(express.static(path.join(__dirname, "dfa-tool", "build")));
+
 //mongoose
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
@@ -60,6 +66,10 @@ app.get("/quizes", function (req, res) {
 app.get("/singlequiz/:id", function (req, res) {
   Quiz.findById(req.params.id).then((quiz) => res.json(quiz));
   // .catch((err) => res.status(400).json("error: " + err));
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dfa-tool", "build", "index.html"));
 });
 
 app.listen(port, function () {
