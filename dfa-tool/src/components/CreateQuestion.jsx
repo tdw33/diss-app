@@ -1,4 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import "../index.css";
 import {
   FormControl,
   TextField,
@@ -6,9 +8,13 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
-import Icon from "@material-ui/core/Icon";
+import Container from "@material-ui/core/Container";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+import { useGlobalContext } from "./TestContext";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +29,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#b2cdb1",
+      dark: "#688967",
+    },
+    secondary: {
+      light: "#0066ff",
+      main: "#b2cdb1",
+      dark: "#688967",
+      contrastText: "#ffffff",
+    },
+  },
+});
+
+//this start the fucntion
+
 function CreateQuestion() {
+  const { openModal } = useGlobalContext();
+  const [qLength, setQLength] = useState(1);
   const classes = useStyles();
   const [inputTrans, setInputTrans] = useState([
     {
@@ -59,15 +84,17 @@ function CreateQuestion() {
         hint: "",
       },
     ]);
+    setQLength(qLength + 1);
   };
   const handleRemoveFields = (index) => {
     const values = [...inputTrans];
     values.splice(index, 1);
     setInputTrans(values);
+    setQLength(qLength - 1);
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const Quizquestions = [];
     inputTrans.forEach((quesiton) => {
       Quizquestions.push(quesiton);
@@ -75,81 +102,95 @@ function CreateQuestion() {
     //creat the new quiz
     const newQuiz = {
       quiztitle: quiztitle.title,
-      quesitons: Quizquestions,
+      questions: Quizquestions,
     };
     console.log(newQuiz);
+
+    // send quiz to server
+    axios.post("http://localhost:5000/newquiz", newQuiz);
+    window.location.reload();
+    alert("you have created a quiz");
   };
 
   return (
     <>
       <section className="questions">
-        <h3>Create Questions</h3>
+        <button onClick={openModal} className="btn">
+          <AiOutlineQuestionCircle></AiOutlineQuestionCircle>
+        </button>
+        <h3 className="qtitle">Create Questions</h3>
         <div className="underline"></div>
-        <FormControl className={classes.root}>
-          <TextField
-            name="title"
-            id="standard-full-width"
-            label="Quiz title"
-            placeholder="Regular Expression Quiz 1"
-            helperText="Give your Quiz a Unique title"
-            margin="normal"
-            onChange={handleTitle}
-          />
-          {inputTrans.map((inputTrans, index) => (
-            <div className={classes.root} key={index}>
-              <TextField
-                name="regEx"
-                id="standard-full-width"
-                label="Regular Expression"
-                value={inputTrans.Transistion}
-                placeholder="(ab|b)b*"
-                helperText="Regular Expression for the DFA"
-                margin="normal"
-                onChange={(event) => handleChangeInput(index, event)}
-              />
-              <TextField
-                name="alph"
-                id="standard-full-width"
-                label="Alphabet"
-                value={inputTrans.Transistion}
-                placeholder="a,b"
-                helperText="Alphabet for the Regular Expression"
-                margin="normal"
-                onChange={(event) => handleChangeInput(index, event)}
-              />
-              <TextField
-                name="hint"
-                id="standard-full-width"
-                label="Hint"
-                value={inputTrans.Transistion}
-                placeholder="Check regular expression conversion lecture"
-                helperText="Provide a hint to the potential DFA"
-                margin="normal"
-                onChange={(event) => handleChangeInput(index, event)}
-              />
-              <IconButton className="formBtn">
-                <RemoveIcon
-                  disabled={inputTrans.length === 1}
-                  onClick={handleRemoveFields}
+        <MuiThemeProvider theme={theme}>
+          <FormControl className={classes.root}>
+            <TextField
+              InputProps={{
+                className: classes.multilineColor,
+              }}
+              name="title"
+              id="full-width"
+              label="Quiz title"
+              placeholder="Regular Expression Quiz 1"
+              helperText="Give your Quiz a Unique title"
+              margin="normal"
+              onChange={handleTitle}
+            />
+            {inputTrans.map((inputTrans, index) => (
+              <div className={classes.root} key={index}>
+                <TextField
+                  name="regEx"
+                  id="full-width"
+                  label="Regular Expression"
+                  value={inputTrans.Transistion}
+                  placeholder="(ab|b)b*"
+                  helperText="Regular Expression for the DFA"
+                  margin="normal"
+                  onChange={(event) => handleChangeInput(index, event)}
                 />
-              </IconButton>
-              <IconButton>
-                <AddIcon onClick={handleAddFields} />
-              </IconButton>
-            </div>
-          ))}
-        </FormControl>
-        <div>
-          <Button
-            className={classes.button}
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Check Answer
-          </Button>
-        </div>
+                <TextField
+                  name="alph"
+                  id="full-width"
+                  label="Alphabet"
+                  value={inputTrans.Transistion}
+                  placeholder="a,b"
+                  helperText="Alphabet for the Regular Expression"
+                  margin="normal"
+                  onChange={(event) => handleChangeInput(index, event)}
+                />
+                <TextField
+                  name="hint"
+                  id="full-width"
+                  label="Hint"
+                  value={inputTrans.Transistion}
+                  placeholder="Check regular expression conversion lecture"
+                  helperText="Provide a hint to the potential DFA"
+                  margin="normal"
+                  onChange={(event) => handleChangeInput(index, event)}
+                />
+                <IconButton
+                  className="formBtn"
+                  disabled={qLength === 1}
+                  onClick={handleRemoveFields}
+                >
+                  <RemoveIcon />
+                </IconButton>
+                <IconButton onClick={handleAddFields}>
+                  <AddIcon />
+                </IconButton>
+              </div>
+            ))}
+          </FormControl>
+          <div>
+            <Button
+              className={classes.button}
+              variant="contained"
+              color="secondary"
+              type="submit"
+              onClick={handleSubmit}
+            >
+              Create Quiz
+            </Button>
+          </div>
+        </MuiThemeProvider>
       </section>
     </>
   );

@@ -1,5 +1,4 @@
 import React, { useRef, useEffect } from "react";
-import LoadQuestion from "./LoadQuestion";
 
 // all required for creating and using the DFA
 var gtool = require("cfgrammar-tool");
@@ -1136,17 +1135,8 @@ function HTML() {
         height="600"
         // ref={canvasRef}
       ></canvas>
-      <button className="button" onClick={testlist}>
-        Check Answer
-      </button>
-      <section>
-        <div className="qcontainer">
-          <h2 className="title">Questions</h2>
-          <LoadQuestion />
-        </div>
-      </section>
     </>
   );
 }
 
-export default HTML;
+export default React.memo(HTML);

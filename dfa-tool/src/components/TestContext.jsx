@@ -1,116 +1,141 @@
 import React, { useContext, useRef, useState } from "react";
-import questions from "./data";
-
+// import questions from "./data";
 
 const TestContext = React.createContext();
 
-export const CanvasProvider = ({ children }) => {
-  const [isDrawing, setIsDrawing] = useState(false);
-  const [isRunning, setIsRunning] = useState(false);
-  const canvasRef = useRef(null);
-  const contextRef = useRef(null);
-   const [index, setIndex] = useState(0);
-  const { regex } = questions[index];
+const CanvasProvider = ({ children }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
+  const [isNonmatchModalOpen, setIsNonmatchModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  var gtool = require("cfgrammar-tool");
+  var lib = require("dfa-lib");
+  var regex = require("dfa-lib/regex");
+  var NFA = lib.NFA;
+  var DFA = lib.DFA;
 
-  var selectedObj = null;
-  var model;
-
-  const prepareCanvas = () => {
-    const canvas = canvasRef.current;
-    //     canvas.width = window.innerWidth * 2;
-    //     canvas.height = window.innerHeight * 2;
-    //     canvas.style.width = `${800}px`;
-    //     canvas.style.height = `${600}px`;
-    const context = canvas.getContext("2d");
-    // context.scale(2, 2);
-    // context.lineCap = "round";
-    // context.strokeStyle = "black";
-    // context.lineWidth = 5;
-    contextRef.current = context;
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const openMatchModal = () => {
+    setIsMatchModalOpen(true);
+  };
+  const closeMatchModal = () => {
+    setIsMatchModalOpen(false);
+  };
+  const openNonmatchModal = () => {
+    setIsNonmatchModalOpen(true);
+  };
+  const closeNonmatchModal = () => {
+    setIsNonmatchModalOpen(false);
+  };
+  const openErrorModal = () => {
+    setIsErrorModalOpen(true);
+  };
+  const closeErrorModal = () => {
+    setIsErrorModalOpen(false);
   };
 
-  const startDrawing = ({ nativeEvent }) => {
-    const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.beginPath();
-    contextRef.current.moveTo(offsetX, offsetY);
-    setIsDrawing(true);
+  const setLoading = () => {
+    setIsLoading(false);
   };
 
-  const finishDrawing = () => {
-    contextRef.current.closePath();
-    setIsDrawing(false);
-  };
-
-  const draw = ({ nativeEvent }) => {
-    if (!isDrawing) {
-      return;
-    }
-    const { offsetX, offsetY } = nativeEvent;
-    contextRef.current.lineTo(offsetX, offsetY);
-    contextRef.current.stroke();
-  };
-
-  const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.fillStyle = "white";
-    context.fillRect(0, 0, canvas.width, canvas.height);
-  };
-
-  const state = (x, y) => {
-    // const canvas = canvasRef.current;
-    // var pos = getMousePos(canvas, nativeEvent);
-    contextRef.current.beginPath();
-    contextRef.current.arc(x, y, 50, 0, 2 * Math.PI);
-    contextRef.current.stroke();
-  };
-  const acceptingState = (nativeEvent) => {
-    const canvas = canvasRef.current;
-    var pos = getMousePos(canvas, nativeEvent);
-    contextRef.current.beginPath();
-    contextRef.current.arc(pos.x, pos.y, 30, 0, 2 * Math.PI);
-    contextRef.current.stroke();
-  };
-
-  function getMousePos(canvas, evt) {
-    var rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top,
-    };
+  //this changes the question regex tgo a DFA
+  function regToDFA(a, b) {
+    var newNFA = regex(a, b);
+    var newDFA = newNFA.to_DFA().minimized();
+    return newDFA;
   }
 
-  //handle the double click event
-  const dblClick = (nativeEvent) => {
-    if (isRunning) {
-      return;
+  //this handle if they are matching
+  function decidability(DFAa, DFAb) {
+    const testb = DFAa.find_equivalence_counterexamples(DFAb);
+    if (testb[0] == null && testb[1] == null) {
+      return true;
+    } else {
+      console.log("false");
+      return false;
     }
-    const canvas = canvasRef.current;
-    var mousePos = getMousePos(canvas, nativeEvent);
-    state(mousePos.x, mousePos.y);
-  };
+  }
 
-  const currentRegex = (index) => {
-   
-  console.log(regex)
-  return regex
-}
+  //this is function to change drawn dfa to text  version
+  function testlist() {
+    // all the values
+    var rawData = JSON.parse(localStorage["fsm"]);
+    var alphabet = [];
+    var acceptingStates = [];
+    var startState = "";
+    var states = [];
+    var trans = {};
 
-  // what gets returned to the canvas
+    //get the states
+    rawData.nodes.forEach((element, index) => {
+      if (element.isAcceptState === true) {
+        acceptingStates.push(JSON.stringify(index));
+      }
+      states.push(index);
+    });
+    states.forEach((e) => {
+      trans[e] = {};
+    });
+
+    // loop to look into links between nodes
+    rawData.links.forEach((element) => {
+      // this will aquire the unfiltered alphabet
+      if (element.text != "") {
+        alphabet.push(element.text);
+        //this will get the other links
+        states.forEach((state) => {
+          if (state == element.nodeA) {
+            // trans[state] = { [element.text]: JSON.stringify(element.nodeB) };
+            let newTrans = Object.assign(trans[state], {
+              [element.text]: JSON.stringify(element.nodeB),
+            });
+          }
+          if (state == element.node) {
+            let newTrans = Object.assign(trans[state], {
+              [element.text]: JSON.stringify(element.node),
+            });
+          }
+        });
+      }
+      // this will get the starting state
+      if (element.type == "StartLink") {
+        startState = JSON.stringify(element.node);
+      }
+    });
+
+    alphabet = [...new Set(alphabet)];
+    // create the DFA
+    var testDFA = new DFA(alphabet, trans, startState, acceptingStates);
+    console.log(testDFA);
+    return testDFA;
+  }
+
   return (
     <TestContext.Provider
       value={{
-        canvasRef,
-        contextRef,
-        prepareCanvas,
-        startDrawing,
-        finishDrawing,
-        clearCanvas,
-        draw,
-        state,
-        acceptingState,
-        dblClick,
-        currentRegex,
+        isModalOpen,
+        openModal,
+        closeModal,
+        regToDFA,
+        decidability,
+        testlist,
+        openMatchModal,
+        closeMatchModal,
+        isMatchModalOpen,
+        openNonmatchModal,
+        closeNonmatchModal,
+        isNonmatchModalOpen,
+        openErrorModal,
+        closeErrorModal,
+        isErrorModalOpen,
+        isLoading,
+        setLoading,
       }}
     >
       {children}
@@ -118,7 +143,8 @@ export const CanvasProvider = ({ children }) => {
   );
 };
 
+export const useGlobalContext = () => {
+  return useContext(TestContext);
+};
 
-
-export const useCanvas = () => useContext(TestContext);
-
+export { TestContext, CanvasProvider };
