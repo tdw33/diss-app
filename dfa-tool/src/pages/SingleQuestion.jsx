@@ -48,17 +48,22 @@ function SingleQuestion() {
   var DFA = lib.DFA;
 
   //this will fetch the data
-  useEffect(() => {
-    fetch(url2)
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
-        }
-      })
-      .then((jsonRes) => setQuiz(jsonRes));
-    console.log("i fire once");
-    setLoad(false);
-  }, []);
+  try {
+    useEffect(() => {
+      fetch(url2)
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then((jsonRes) => setQuiz(jsonRes));
+      console.log("i fire once");
+      setLoad(false);
+    }, []);
+  } catch (error) {
+    console.log(error);
+    alert(error);
+  }
 
   // This sets up all the questions
   const [index, setIndex] = useState(0);
