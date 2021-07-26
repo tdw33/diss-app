@@ -65,55 +65,59 @@ const CanvasProvider = ({ children }) => {
   //this is function to change drawn dfa to text  version
   function testlist() {
     // all the values
-    var rawData = JSON.parse(localStorage["fsm"]);
-    var alphabet = [];
-    var acceptingStates = [];
-    var startState = "";
-    var states = [];
-    var trans = {};
+    try {
+      var rawData = JSON.parse(localStorage["fsm"]);
+      var alphabet = [];
+      var acceptingStates = [];
+      var startState = "";
+      var states = [];
+      var trans = {};
 
-    //get the states
-    rawData.nodes.forEach((element, index) => {
-      if (element.isAcceptState === true) {
-        acceptingStates.push(JSON.stringify(index));
-      }
-      states.push(index);
-    });
-    states.forEach((e) => {
-      trans[e] = {};
-    });
+      //get the states
+      rawData.nodes.forEach((element, index) => {
+        if (element.isAcceptState === true) {
+          acceptingStates.push(JSON.stringify(index));
+        }
+        states.push(index);
+      });
+      states.forEach((e) => {
+        trans[e] = {};
+      });
 
-    // loop to look into links between nodes
-    rawData.links.forEach((element) => {
-      // this will aquire the unfiltered alphabet
-      if (element.text != "") {
-        alphabet.push(element.text);
-        //this will get the other links
-        states.forEach((state) => {
-          if (state == element.nodeA) {
-            // trans[state] = { [element.text]: JSON.stringify(element.nodeB) };
-            let newTrans = Object.assign(trans[state], {
-              [element.text]: JSON.stringify(element.nodeB),
-            });
-          }
-          if (state == element.node) {
-            let newTrans = Object.assign(trans[state], {
-              [element.text]: JSON.stringify(element.node),
-            });
-          }
-        });
-      }
-      // this will get the starting state
-      if (element.type == "StartLink") {
-        startState = JSON.stringify(element.node);
-      }
-    });
+      // loop to look into links between nodes
+      rawData.links.forEach((element) => {
+        // this will aquire the unfiltered alphabet
+        if (element.text != "") {
+          alphabet.push(element.text);
+          //this will get the other links
+          states.forEach((state) => {
+            if (state == element.nodeA) {
+              // trans[state] = { [element.text]: JSON.stringify(element.nodeB) };
+              let newTrans = Object.assign(trans[state], {
+                [element.text]: JSON.stringify(element.nodeB),
+              });
+            }
+            if (state == element.node) {
+              let newTrans = Object.assign(trans[state], {
+                [element.text]: JSON.stringify(element.node),
+              });
+            }
+          });
+        }
+        // this will get the starting state
+        if (element.type == "StartLink") {
+          startState = JSON.stringify(element.node);
+        }
+      });
 
-    alphabet = [...new Set(alphabet)];
-    // create the DFA
-    var testDFA = new DFA(alphabet, trans, startState, acceptingStates);
-    console.log(testDFA);
-    return testDFA;
+      alphabet = [...new Set(alphabet)];
+      // create the DFA
+      var testDFA = new DFA(alphabet, trans, startState, acceptingStates);
+      console.log(testDFA);
+      return testDFA;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
