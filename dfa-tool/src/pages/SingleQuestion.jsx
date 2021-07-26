@@ -38,7 +38,7 @@ function SingleQuestion() {
   const url = "https://dfa-quiz.herokuapp.com/singlequiz/";
   const url2 = `${url}${id}`;
   console.log(" the url is " + url2);
-  const [load, setLoad] = useState(true);
+  // const [load, setLoad] = useState(true);
 
   //this imports the DFA tools
   var gtool = require("cfgrammar-tool");
@@ -58,7 +58,7 @@ function SingleQuestion() {
         })
         .then((jsonRes) => setQuiz(jsonRes));
       console.log("i fire once");
-      setLoad(false);
+      // setLoad(false);
     }, []);
   } catch (error) {
     console.log(error);
