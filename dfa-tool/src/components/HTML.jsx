@@ -1121,10 +1121,10 @@ function HTML() {
     console.log(evena3);
     console.log(testDFA);
     console.log(evena3.find_equivalence_counterexamples(testDFA));
-    console.log(JSON.parse(localStorage["fsm"]));
+    // console.log(JSON.parse(localStorage["fsm"]));
   }
 
-  console.log(JSON.parse(localStorage["fsm"]));
+  // console.log(JSON.parse(localStorage["fsm"]));
 
   return (
     <>
