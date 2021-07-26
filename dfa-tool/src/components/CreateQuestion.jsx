@@ -107,7 +107,7 @@ function CreateQuestion() {
     console.log(newQuiz);
 
     // send quiz to server
-    axios.post("http://localhost:5000/newquiz", newQuiz);
+    axios.post("https://dfa-quiz.herokuapp.com/newquiz", newQuiz);
     window.location.reload();
     alert("you have created a quiz");
   };

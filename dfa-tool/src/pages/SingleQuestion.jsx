@@ -35,7 +35,7 @@ function SingleQuestion() {
   const [word2, setword2] = useState("");
 
   const { id } = useParams();
-  const url = "http://localhost:5000/singlequiz/";
+  const url = "https://dfa-quiz.herokuapp.com/singlequiz/";
   const url2 = `${url}${id}`;
   console.log(" the url is " + url2);
   const [load, setLoad] = useState(true);

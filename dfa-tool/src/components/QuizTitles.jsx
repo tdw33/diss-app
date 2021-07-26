@@ -20,7 +20,7 @@ function QuizTitle() {
   //fetch the quiz titles
   try {
     useEffect(() => {
-      fetch("http://localhost:5000/quizes")
+      fetch("https://dfa-quiz.herokuapp.com/quizes")
         .then((res) => {
           if (res.ok) {
             return res.json();
