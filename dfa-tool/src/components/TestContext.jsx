@@ -66,8 +66,11 @@ const CanvasProvider = ({ children }) => {
 
   function testlist() {
     // all the values
+    if (!localStorage || !JSON) {
+      return;
+    }
     try {
-      var rawData = JSON.parse(localStorage["fsm"]) || { nodes: [], links: [] };
+      var rawData = JSON.parse(localStorage["fsm"]);
       var alphabet = [];
       var acceptingStates = [];
       var startState = "";
