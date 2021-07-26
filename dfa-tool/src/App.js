@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+
 //components
 import Navbar from "./components/Navbar";
 import { CanvasProvider } from "./components/TestContext";
@@ -7,6 +8,7 @@ import { CanvasProvider } from "./components/TestContext";
 import Home from "./pages/Home";
 import Quesitons from "./pages/Questions";
 import Theory from "./pages/Theory";
+import SingleQuestion from "./pages/SingleQuestion";
 
 function App() {
   // nav bar
@@ -23,6 +25,9 @@ function App() {
           </Route>
           <Route path="/questions">
             <Quesitons />
+          </Route>
+          <Route path="/SingleQuestion/:id">
+            <SingleQuestion />
           </Route>
           <Route path="/theory">
             <Theory />

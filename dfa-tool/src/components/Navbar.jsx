@@ -20,7 +20,7 @@ function Navbar() {
     <nav>
       <div className="nav-center">
         <div className="nav-header">
-          <h4 className="lefty">logo</h4>
+          <h3 className="lefty">Automata Quiz</h3>
           <button
             className="nav-toggle"
             onClick={() => setShowLinks(!showLinks)}
