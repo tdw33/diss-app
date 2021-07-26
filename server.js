@@ -12,9 +12,6 @@ app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // To parse the incoming requests with JSON payloads
 
-// ... other imports
-const path = require("path");
-
 // ... other app.use middleware
 app.use(express.static(path.join(__dirname, "dfa-tool", "build")));
 
