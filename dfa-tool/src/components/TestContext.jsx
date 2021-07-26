@@ -63,10 +63,11 @@ const CanvasProvider = ({ children }) => {
   }
 
   //this is function to change drawn dfa to text  version
+
   function testlist() {
     // all the values
     try {
-      var rawData = JSON.parse(localStorage["fsm"]);
+      var rawData = JSON.parse(localStorage["fsm"]) || { nodes: [], links: [] };
       var alphabet = [];
       var acceptingStates = [];
       var startState = "";
