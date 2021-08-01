@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
 import {
@@ -8,20 +8,26 @@ import {
   IconButton,
   Button,
 } from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
+// import Icon from "@material-ui/core/Icon";
 import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
-import Container from "@material-ui/core/Container";
+// import Container from "@material-ui/core/Container";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 import { useGlobalContext } from "./TestContext";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
+import info from "./modals/modalData";
+import ErrorModal from "../components/modals/ErrorModal";
 
+// setup the syling for materuial UI
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex center",
     flexWrap: "wrap",
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
+    },
+    [theme.breakpoints.down("md")]: {
+      display: "inline block",
     },
   },
   button: {
@@ -47,7 +53,7 @@ const theme = createMuiTheme({
 //this start the fucntion
 
 function CreateQuestion() {
-  const { openModal } = useGlobalContext();
+  const { openModal, openErrorModal } = useGlobalContext();
   const [qLength, setQLength] = useState(1);
   const classes = useStyles();
   const [inputTrans, setInputTrans] = useState([
@@ -58,7 +64,38 @@ function CreateQuestion() {
     },
   ]);
   const [quiztitle, setQuiztitle] = useState({ title: "" });
+  const [errors, setErrors] = useState({
+    title: "",
+    regex: "",
+    alpg: "",
+    hint: "",
+  });
+  const [quizes, setQuizes] = useState([
+    {
+      quiztitle: "",
+      questions: [],
+    },
+  ]);
 
+  //fetch the quiz titles
+  try {
+    useEffect(() => {
+      fetch("https://dfa-quiz.herokuapp.com/quizes")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          }
+        })
+        .then((jsonRes) => setQuizes(jsonRes));
+      // console.log(quizes);
+    }, []);
+    console.log(quizes);
+  } catch (error) {
+    console.log(error);
+    alert(error);
+  }
+
+  // handle inputs, additional Qs
   function handleTitle(event) {
     const { name, value } = event.target;
     setQuiztitle((prevInput) => {
@@ -86,6 +123,7 @@ function CreateQuestion() {
     ]);
     setQLength(qLength + 1);
   };
+
   const handleRemoveFields = (index) => {
     const values = [...inputTrans];
     values.splice(index, 1);
@@ -93,23 +131,70 @@ function CreateQuestion() {
     setQLength(qLength - 1);
   };
 
-  const handleSubmit = (e) => {
-    // e.preventDefault();
-    const Quizquestions = [];
-    inputTrans.forEach((quesiton) => {
-      Quizquestions.push(quesiton);
-    });
-    //creat the new quiz
-    const newQuiz = {
-      quiztitle: quiztitle.title,
-      questions: Quizquestions,
-    };
-    console.log(newQuiz);
+  // handles the form validation
+  const validation = () => {
+    let titleError = "";
+    let regexError = "";
+    let alphError = "";
+    let hintError = "";
 
-    // send quiz to server
-    axios.post("https://dfa-quiz.herokuapp.com/newquiz", newQuiz);
-    window.location.reload();
-    alert("you have created a quiz");
+    if (quiztitle.title === "") {
+      titleError = "This field is required";
+    }
+    quizes.forEach((val) => {
+      if (val.quiztitle === quiztitle.title) {
+        titleError = "There is a quiz with that title already";
+      }
+    });
+    inputTrans.forEach((val) => {
+      if (val.regEx === "") {
+        regexError = "This field is required";
+      }
+      if (val.alph === "") {
+        alphError = "This field is required";
+      }
+      if (val.hint === "") {
+        hintError = "This field is required";
+      }
+    });
+    if (titleError || regexError || alphError || hintError) {
+      setErrors({
+        title: titleError,
+        regex: regexError,
+        alph: alphError,
+        hint: hintError,
+      });
+      return false;
+    }
+    return true;
+  };
+
+  // handle submission
+  const handleSubmit = (e) => {
+    if (validation()) {
+      setErrors({
+        title: "",
+        regex: "",
+        alph: "",
+        hint: "",
+      });
+      const Quizquestions = [];
+      inputTrans.forEach((quesiton) => {
+        Quizquestions.push(quesiton);
+      });
+      //creat the new quiz
+      const newQuiz = {
+        quiztitle: quiztitle.title,
+        questions: Quizquestions,
+      };
+      // send quiz to server
+      axios.post("https://dfa-quiz.herokuapp.com/newquiz", newQuiz);
+      //using error modal for quiz creation
+      openErrorModal();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    }
   };
 
   return (
@@ -127,10 +212,11 @@ function CreateQuestion() {
                 className: classes.multilineColor,
               }}
               name="title"
-              id="full-width"
+              // id="full-width"
               label="Quiz title"
               placeholder="Regular Expression Quiz 1"
-              helperText="Give your Quiz a Unique title"
+              error={Boolean(errors?.title)}
+              helperText={errors?.title}
               margin="normal"
               onChange={handleTitle}
             />
@@ -138,31 +224,34 @@ function CreateQuestion() {
               <div className={classes.root} key={index}>
                 <TextField
                   name="regEx"
-                  id="full-width"
+                  // id="full-width"
                   label="Regular Expression"
                   value={inputTrans.Transistion}
                   placeholder="(ab|b)b*"
-                  helperText="Regular Expression for the DFA"
+                  error={Boolean(errors?.regex)}
+                  helperText={errors?.regex}
                   margin="normal"
                   onChange={(event) => handleChangeInput(index, event)}
                 />
                 <TextField
                   name="alph"
-                  id="full-width"
+                  // id="full-width"
                   label="Alphabet"
                   value={inputTrans.Transistion}
                   placeholder="a,b"
-                  helperText="Alphabet for the Regular Expression"
+                  error={Boolean(errors?.alph)}
+                  helperText={errors?.alph}
                   margin="normal"
                   onChange={(event) => handleChangeInput(index, event)}
                 />
                 <TextField
                   name="hint"
-                  id="full-width"
+                  // id="full-width"
                   label="Hint"
                   value={inputTrans.Transistion}
                   placeholder="Check regular expression conversion lecture"
-                  helperText="Provide a hint to the potential DFA"
+                  error={Boolean(errors?.hint)}
+                  helperText={errors?.hint}
                   margin="normal"
                   onChange={(event) => handleChangeInput(index, event)}
                 />
@@ -192,6 +281,11 @@ function CreateQuestion() {
           </div>
         </MuiThemeProvider>
       </section>
+      <ErrorModal
+        title={info[5].title}
+        mainText={info[5].mainText}
+        button={info[5].button}
+      />
     </>
   );
 }

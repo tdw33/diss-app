@@ -11,12 +11,10 @@
   /* extra */
   --spacing: 0.1rem;
   --transition: all 0.3s linear;
-  --clr-white: #fff;
-  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --white: #fff;
+  --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   --radius: 0.25rem;
-  --max-width: 1170px;
-  --fixed-width: 620px;
-  --clr-red-dark: hsl(360, 67%, 44%);
+  --red: hsl(360, 67%, 44%);
 }
 
 /* Global Styles */
@@ -48,7 +46,7 @@ h2,
 h3,
 h4 {
   letter-spacing: var(--spacing);
-  line-height: 1.25;
+  line-height: 1;
   margin-bottom: 0.75rem;
 }
 h1 {
@@ -63,14 +61,14 @@ h3 {
 h4 {
   font-size: 0.875rem;
 }
-p {
-  margin-bottom: 1.25rem;
-  text-align: center;
-}
 img {
   margin-bottom: 1.25rem;
   border-radius: 20px;
   -moz-border-radius: 20px;
+}
+p {
+  margin-bottom: 1.25rem;
+  text-align: center;
 }
 table {
   align-items: center;
@@ -80,6 +78,7 @@ td {
   padding: 15px;
   border-bottom: 1px solid black;
 }
+
 @media screen and (min-width: 800px) {
   h1 {
     font-size: 4rem;
@@ -153,8 +152,8 @@ Navbar
   height: 10rem;
 }
 nav {
-  background: var(--clr-white);
-  box-shadow: var(--light-shadow);
+  background: var(--white);
+  box-shadow: var(--shadow);
 }
 .nav-header {
   display: flex;
@@ -169,7 +168,6 @@ nav {
   justify-content: space-between;
 }
 .quiz-list {
-  /* list-style-type: circle; */
   list-style-type: none;
   list-style-position: inside;
   margin: 0 auto;
@@ -204,7 +202,6 @@ nav {
   float: right;
   top: 1rem;
   right: 1rem;
-  /* padding: 0.25rem 0.5rem; */
   font-size: 2rem;
   background: transparent;
   border-color: transparent;
@@ -224,13 +221,11 @@ nav {
 .search-form {
   align-items: center;
   justify-content: center;
-  /* width: var(--smallWidth); */
   margin: 0 auto;
   width: 100%;
   height: 40px;
   background: white;
   padding: 1rem 1.5rem;
-  /* text-transform: capitalize; */
   font-size: 20px;
   border: none;
   border-color: transparent;
@@ -242,11 +237,9 @@ nav {
 .question-title {
   display: block;
   align-items: center;
-  /* text-transform: capitalize; */
   padding-bottom: 1rem;
   max-width: 400px;
   border-radius: 20px;
-  /* -moz-border-radius: 20px; */
   margin: 10px auto;
 }
 .title {
@@ -258,7 +251,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--clr-white);
+  background: var(--white);
   border-radius: 20px;
   padding: 1rem 1rem 1rem 1rem;
   -moz-border-radius: 20px;
@@ -266,8 +259,6 @@ nav {
   max-width: 400px;
 }
 .quizbutton {
-  /* position: absolute; */
-  /* background: white; */
   background: var(--main-colour);
   color: white;
   padding: 0.5rem 0.5rem;
@@ -278,12 +269,10 @@ nav {
   cursor: pointer;
   font-family: inherit;
   font-weight: bold;
-  /* color: var(--clr-grey-1); */
 }
 .quizbutton:hover {
-  /* background: var(--clr-primary-5); */
   background: var(--main-colour-dark);
-  color: var(--clr-white);
+  color: var(--white);
   border: 2px solid var(--main-colour-dark);
 }
 
@@ -324,10 +313,13 @@ nav {
 .regex {
   margin-bottom: 0.75rem;
 }
+.hint {
+  font-style: italic;
+}
 .prev-btn,
 .next-btn {
   color: var(--main-colour);
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   background: transparent;
   border-color: transparent;
   margin: 0 0.5rem;
@@ -341,10 +333,20 @@ nav {
 .canvas {
   display: block;
   max-width: 800px;
-  background: var(--clr-white);
+  max-height: 600px;
+  background: var(--white);
   border-radius: 20px;
   -moz-border-radius: 20px;
   margin: 10px auto;
+}
+.canvasContainer {
+  display: block;
+  max-width: 800px;
+  background: white;
+  border-radius: 20px;
+  -moz-border-radius: 20px;
+  margin: 10px auto;
+  padding-bottom: 1rem;
 }
 
 /* theory page */
@@ -358,9 +360,6 @@ nav {
   margin-right: auto;
 }
 .home-btn {
-  /* display: inline-flex;
-  position: absolute;
-  right: 3rem; */
   float: right;
   font-size: 3rem;
   background: transparent;
@@ -369,7 +368,6 @@ nav {
   cursor: pointer;
   transition: var(--transition);
   position: fixed;
-  /* position: sticky; */
   bottom: 0;
   right: 2rem;
   animation: pulse 2s infinite;
@@ -397,7 +395,6 @@ nav {
   margin-bottom: 2rem;
   position: sticky;
   top: 20px;
-  /* max-width: 800px; */
 }
 .theory-button {
   background: var(--main-colour);
@@ -413,17 +410,17 @@ nav {
 }
 .theory-button:hover {
   background: var(--main-colour-dark);
-  color: var(--clr-white);
+  color: var(--white);
   border: 2px solid var(--main-colour-dark);
 }
 .DFA,
 .NFA,
 .NFA-DFA {
-  min-height: 95vh;
+  min-height: 100vh;
   text-align: center;
 }
 .RegExp {
-  min-height: 160vh;
+  min-height: 170vh;
   text-align: center;
 }
 .underline2 {
@@ -436,13 +433,11 @@ nav {
   margin-top: 1rem;
 }
 .list {
-  /* list-style-type: circle; */
   list-style-type: none;
   list-style-position: inside;
   margin: 0 auto;
   text-align: center;
   align-items: center;
-  /* width: 32%; */
   margin-bottom: 1.25rem;
   font-weight: bold;
 }
@@ -485,11 +480,9 @@ nav {
   z-index: 10;
 }
 .modal-container {
-  background: var(--clr-white);
+  background: var(--white);
   border-radius: var(--radius);
-  /* width: 90vw;
-  height: 30vh; */
-  max-width: var(--fixed-width);
+  max-width: 620px;
   text-align: center;
   display: block;
   place-items: center;
@@ -510,7 +503,6 @@ nav {
   margin-bottom: 40px;
 }
 .modal-button {
-  /* position: absolute; */
   width: 75%;
   height: 45px;
   background: var(--main-colour);
@@ -518,7 +510,6 @@ nav {
   padding: 0.5rem 0.5rem;
   text-transform: uppercase;
   border-radius: var(--radius);
-  /* transition: var(--transition); */
   border: 2px solid var(--main-colour);
   cursor: pointer;
   margin-bottom: 40px;
@@ -527,7 +518,7 @@ nav {
 }
 .modal-button:hover {
   background: var(--main-colour-dark);
-  color: var(--clr-white);
+  color: var(--white);
   border: 2px solid var(--main-colour-dark);
 }
 .close-modal-btn {
@@ -542,7 +533,7 @@ nav {
 }
 .close-modal-btn:hover {
   transform: rotate(360deg);
-  color: var(--clr-red-dark);
+  color: var(--red);
 }
 
 /* extra stuff */
@@ -576,5 +567,24 @@ nav {
     padding: 0;
     background: transparent;
     color: var(--main-colour);
+  }
+  .DFA,
+  .NFA,
+  .NFA-DFA {
+    min-height: 95vh;
+    text-align: center;
+  }
+  .RegExp {
+    min-height: 165vh;
+    text-align: center;
+  }
+  .canvas {
+    display: block;
+    max-width: 800px;
+    max-height: 600px;
+    background: var(--white);
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    margin: 10px auto;
   }
 }

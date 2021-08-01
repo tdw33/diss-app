@@ -15,7 +15,7 @@ const QuizModal = () => {
           <h3>Quiz Page</h3>
           <div className="underline"></div>
           <h4>
-            This is the quiz page where you can go through the questions and try
+            This is the Quiz Page where you can go through the questions and try
             to answer them. To draw on the canvas you need to:
           </h4>
           <div>
