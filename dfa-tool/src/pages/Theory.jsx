@@ -32,7 +32,6 @@ const Theory = () => {
         <button className="home-btn" onClick={handleHistory}>
           <AiFillHome></AiFillHome>
         </button>
-        {/* <h2 className="theory-heading">Theory</h2> */}
         <div className="theory-button-container">
           <a className="theory-button" href="#DFA" onClick={handleClick}>
             DFA
@@ -51,11 +50,12 @@ const Theory = () => {
           <h2>DFA</h2>
           <div className="underline2"></div>
           <p>
-            The simplest form of finite automata are DFAs where there are states
-            with transitions from each one to another, matching with the
-            required input. To fully understand DFAs without uncertainty a
-            formal definition is required, which also helps with the notion in
-            designing them. From this the 5 tuples can be formed as follows:
+            The simplest form of finite automata are deterministic finite
+            automata DFA where there are states with transitions from each one
+            to another, matching with the required input. To fully understand
+            DFAs without uncertainty a formal definition is required, which also
+            helps with the notion in designing them. From this the 5 tuples can
+            be formed as follows:
           </p>
           <div>
             <li className="list">𝑄 are states and are finite</li>
@@ -71,7 +71,7 @@ const Theory = () => {
           <h2>NFA</h2>
           <div className="underline2"></div>
           <p>
-            Following DFA’s there are nondeterministic finite automata (NFA)
+            Following DFAs there are nondeterministic finite automata (NFA)
             which differ through the idea that when the next input symbol from
             the language is read there will be the possibility for more than one
             option for the machine to travel to from that state.
@@ -80,7 +80,7 @@ const Theory = () => {
             An NFA can have 0 to 𝑛 arrows leaving it. Second, the NFA can have
             another transition arrow noted 𝜀 which allows the machine to jump
             from one state to another without the input of a symbol from the
-            alphabet. The NFAs also has formal description similar to the DFA
+            alphabet. The NFA also has a formal description similar to the DFA
             with 5-tuples. The difference seen is in the transition function.
             The NFA transition functions will take the input symbol or empty
             string and create all the possible next states. The 5-tuples are
@@ -116,8 +116,9 @@ const Theory = () => {
           <p>
             Using these we then start to formulate the full expression which
             uses union and kleene star. The first figure shows the union of (a)
-            and (ab) with a simplified version. Next the kleene star of the
-            union is created and simplified into the final NFA.
+            and (ab) with a further simplified version. Next the kleene star of
+            the union is created and simplified into the final NFA. Often you
+            can draw the NFA without following each step strictly.
           </p>
           <img src={union} alt="union"></img>
           <img src={kleene} alt="kleene"></img>
@@ -126,7 +127,7 @@ const Theory = () => {
           <h2>NFA to DFA</h2>
           <div className="underline2"></div>
           <p>
-            The finla step is converting this NFA into the DFA. To acheive this
+            The final step is converting this NFA into the DFA. To acheive this
             you can follow these steps:
           </p>
           <div>
@@ -135,7 +136,12 @@ const Theory = () => {
             </li>
             <li className="list">
               For each state follow where the arrows goes based on the NFA and
-              note down the new state.
+              note down the new state. This should produce a table as shown
+              below
+            </li>
+            <li className="list">
+              The accepting states will be any of the new states that contain
+              accepting states from the NFA
             </li>
             <li className="list">
               Remember to include the empty state if required
@@ -143,29 +149,35 @@ const Theory = () => {
           </div>
           <div className="table">
             <table>
-              <tr>
-                <th></th>
-                <th>a</th>
-                <th>b</th>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>1,2</td>
-                <td>Empty</td>
-              </tr>
-              <tr>
-                <td>1,2</td>
-                <td>1,2</td>
-                <td>1</td>
-              </tr>
-              <tr>
-                <td>Empty</td>
-                <td>Empty</td>
-                <td>Empty</td>
-              </tr>
+              <tbody>
+                <tr>
+                  <th></th>
+                  <th>a</th>
+                  <th>b</th>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>1,2</td>
+                  <td>Empty</td>
+                </tr>
+                <tr>
+                  <td>1,2</td>
+                  <td>1,2</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>Empty</td>
+                  <td>Empty</td>
+                  <td>Empty</td>
+                </tr>
+              </tbody>
             </table>
           </div>
           <img src={NFADFA} alt="NFA-DFA"></img>
+          <p>
+            This figure shows the conversion of the NFA to the DFA based on the
+            table produced.
+          </p>
         </section>
       </div>
     </>

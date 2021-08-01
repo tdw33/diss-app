@@ -1,12 +1,5 @@
 import React, { useRef, useEffect } from "react";
 
-// all required for creating and using the DFA
-var gtool = require("cfgrammar-tool");
-var lib = require("dfa-lib");
-var regex = require("dfa-lib/regex");
-var NFA = lib.NFA;
-var DFA = lib.DFA;
-
 function HTML() {
   //   const canvasRef = useRef(null);
   //   const contextRef = useRef(null);
@@ -1054,78 +1047,6 @@ function HTML() {
     element.value = text;
   }
 
-  // return
-
-  // useEffect(() => {
-  //   prepareCanvas();
-  // }, []);
-
-  var evena3 = new DFA( // contains a positive even number of a's 2nd version
-    ["a", "b"],
-    {
-      0: { a: "1", b: "0" },
-      1: { a: "0", b: "1" },
-    },
-    "0",
-    ["0"]
-  );
-
-  function testlist() {
-    // all the values
-    var rawData = JSON.parse(localStorage["fsm"]);
-    var alphabet = [];
-    var acceptingStates = [];
-    var startState = "";
-    var states = [];
-    var trans = {};
-
-    //get the states
-    rawData.nodes.forEach((element, index) => {
-      if (element.isAcceptState === true) {
-        acceptingStates.push(JSON.stringify(index));
-      }
-      states.push(index);
-    });
-    states.forEach((e) => {
-      trans[e] = {};
-    });
-
-    // loop to look into links between nodes
-    rawData.links.forEach((element) => {
-      // this will aquire the unfiltered alphabet
-      if (element.text != "") {
-        alphabet.push(element.text);
-        //this will get the other links
-        states.forEach((state) => {
-          if (state == element.nodeA) {
-            // trans[state] = { [element.text]: JSON.stringify(element.nodeB) };
-            let newTrans = Object.assign(trans[state], {
-              [element.text]: JSON.stringify(element.nodeB),
-            });
-          }
-          if (state == element.node) {
-            let newTrans = Object.assign(trans[state], {
-              [element.text]: JSON.stringify(element.node),
-            });
-          }
-        });
-      }
-      // this will get the starting state
-      if (element.type == "StartLink") {
-        startState = JSON.stringify(element.node);
-      }
-    });
-    alphabet = [...new Set(alphabet)];
-    // create the DFA
-    var testDFA = new DFA(alphabet, trans, startState, acceptingStates);
-    console.log(evena3);
-    console.log(testDFA);
-    console.log(evena3.find_equivalence_counterexamples(testDFA));
-    // console.log(JSON.parse(localStorage["fsm"]));
-  }
-
-  // console.log(JSON.parse(localStorage["fsm"]));
-
   return (
     <>
       <canvas
@@ -1133,7 +1054,7 @@ function HTML() {
         className="canvas"
         width="800"
         height="600"
-        // ref={canvasRef}
+        // extra stuff
       ></canvas>
     </>
   );

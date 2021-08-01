@@ -1,5 +1,4 @@
-import { json } from "body-parser";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "./TestContext";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
@@ -15,8 +14,6 @@ function QuizTitle() {
   ]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  //Loading setup
-
   //fetch the quiz titles
   try {
     useEffect(() => {
@@ -27,7 +24,6 @@ function QuizTitle() {
           }
         })
         .then((jsonRes) => setQuizes(jsonRes));
-      // console.log(quizes);
       setLoading();
     }, []);
     console.log(quizes);
@@ -36,10 +32,10 @@ function QuizTitle() {
     alert(error);
   }
 
+  // this will run until the data is fetched
   if (isLoading) {
     return <Loading />;
   }
-  //setting up the modal info
 
   return (
     <>
@@ -61,7 +57,7 @@ function QuizTitle() {
         <h2 className="title">Quiz Selection</h2>
         {quizes
           .filter((val) => {
-            if (searchTerm == "") {
+            if (searchTerm === "") {
               return val;
             } else if (
               val.quiztitle
@@ -72,7 +68,6 @@ function QuizTitle() {
             }
           })
           .map((quiz, index) => {
-            console.log(quiz);
             if (quiz) {
               return (
                 <div className="qtitlecontainer" key={index}>

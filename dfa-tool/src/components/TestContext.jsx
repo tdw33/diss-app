@@ -1,5 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
-// import questions from "./data";
+import React, { useContext, useState } from "react";
 
 const TestContext = React.createContext();
 
@@ -9,7 +8,7 @@ const CanvasProvider = ({ children }) => {
   const [isNonmatchModalOpen, setIsNonmatchModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  var gtool = require("cfgrammar-tool");
+
   var lib = require("dfa-lib");
   var regex = require("dfa-lib/regex");
   var NFA = lib.NFA;
@@ -54,7 +53,7 @@ const CanvasProvider = ({ children }) => {
   //this handle if they are matching
   function decidability(DFAa, DFAb) {
     const testb = DFAa.find_equivalence_counterexamples(DFAb);
-    if (testb[0] == null && testb[1] == null) {
+    if (testb[0] === null && testb[1] === null) {
       return true;
     } else {
       console.log("false");
@@ -91,17 +90,17 @@ const CanvasProvider = ({ children }) => {
       // loop to look into links between nodes
       rawData.links.forEach((element) => {
         // this will aquire the unfiltered alphabet
-        if (element.text != "") {
+        if (element.text !== "") {
           alphabet.push(element.text);
           //this will get the other links
           states.forEach((state) => {
-            if (state == element.nodeA) {
+            if (state === element.nodeA) {
               // trans[state] = { [element.text]: JSON.stringify(element.nodeB) };
               let newTrans = Object.assign(trans[state], {
                 [element.text]: JSON.stringify(element.nodeB),
               });
             }
-            if (state == element.node) {
+            if (state === element.node) {
               let newTrans = Object.assign(trans[state], {
                 [element.text]: JSON.stringify(element.node),
               });
@@ -109,7 +108,7 @@ const CanvasProvider = ({ children }) => {
           });
         }
         // this will get the starting state
-        if (element.type == "StartLink") {
+        if (element.type === "StartLink") {
           startState = JSON.stringify(element.node);
         }
       });

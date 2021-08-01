@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import HTML from "../components/HTML";
 import QuizModal from "../components/modals/QuizModal";
@@ -38,14 +38,6 @@ function SingleQuestion() {
   const url = "https://dfa-quiz.herokuapp.com/singlequiz/";
   const url2 = `${url}${id}`;
   console.log(" the url is " + url2);
-  // const [load, setLoad] = useState(true);
-
-  //this imports the DFA tools
-  var gtool = require("cfgrammar-tool");
-  var lib = require("dfa-lib");
-  var regex = require("dfa-lib/regex");
-  var NFA = lib.NFA;
-  var DFA = lib.DFA;
 
   //this will fetch the data
   try {
@@ -108,7 +100,7 @@ function SingleQuestion() {
         openMatchModal();
       } else {
         console.log("they are not matching ");
-        var words = drawnDFA.find_equivalence_counterexamples(questionDFA);
+        words = drawnDFA.find_equivalence_counterexamples(questionDFA);
         console.log("these are the cpunter words: ", words);
         setword1(words[0]);
         setword2(words[1]);
@@ -120,10 +112,7 @@ function SingleQuestion() {
   };
 
   return (
-    // <h1>test</h1>
     <>
-      {/* {render()} */}
-
       <section>
         <div className="qcontainer">
           <button onClick={openModal} className="btn">
@@ -137,7 +126,7 @@ function SingleQuestion() {
               Please give the equivelent DFA for the following regular
               expression: {reg}
             </h4>
-            <h4 className="regex">Hint: {hint} </h4>
+            <h4 className="regex hint">Hint: {hint} </h4>
             <div className="button-container">
               <button className="prev-btn" onClick={prevQuestion}>
                 <FaChevronLeft />
@@ -151,12 +140,14 @@ function SingleQuestion() {
               className="quizbutton"
               onClick={() => handleSubmit(reg, alph)}
             >
-              Check answer
+              Check Answer
             </button>
           </section>
         </div>
       </section>
-      <HTML />
+      <div className="canvasContainer">
+        <HTML />
+      </div>
       <QuizModal />
       <MatchingModal
         title={info[2].title}
