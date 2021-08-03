@@ -51,6 +51,16 @@ app.post("/newquiz", function (req, res) {
   newQuiz.save();
 });
 
+// remove a quiz
+app.delete("/delete/:id", function (req, res) {
+  const id = req.params.id;
+  Quiz.findByIdAndDelete({ _id: id }, function (error) {
+    if (error) {
+      console.log(error);
+    }
+  });
+});
+
 // get the quizes
 app.get("/quizes", function (req, res) {
   Quiz.find().then((quizes) => res.json(quizes));

@@ -275,6 +275,22 @@ nav {
   color: var(--white);
   border: 2px solid var(--main-colour-dark);
 }
+.removeQuizBtn {
+  font-size: 1.3rem;
+  background: transparent;
+  border-color: transparent;
+  color: darkgrey;
+  cursor: pointer;
+}
+.removeQuizBtn :hover {
+  color: var(--red);
+}
+.test {
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 12px;
+  align-items: center;
+}
 
 /* question page */
 .questions {
