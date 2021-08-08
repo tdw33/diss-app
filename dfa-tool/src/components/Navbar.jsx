@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaBars } from "react-icons/fa";
+//this is so the navbar links with the routes setup in the app.js
 import { Link } from "react-router-dom";
+//import the sidebar icon
+import { GoThreeBars } from "react-icons/go";
 
 function Navbar() {
   const [showLinks, setShowLinks] = useState(false);
@@ -25,7 +27,7 @@ function Navbar() {
             className="nav-toggle"
             onClick={() => setShowLinks(!showLinks)}
           >
-            <FaBars />
+            <GoThreeBars />
           </button>
         </div>
         <div className="links-container" ref={linksContainerRef}>

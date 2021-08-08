@@ -1,9 +1,7 @@
 import React, { useRef, useEffect } from "react";
+// this is all using code from here: https://github.com/evanw/fsm
 
 function HTML() {
-  //   const canvasRef = useRef(null);
-  //   const contextRef = useRef(null);
-
   // canvas code
   function StartLink(node, start) {
     this.node = node;
@@ -1047,6 +1045,7 @@ function HTML() {
     element.value = text;
   }
 
+  // this is will render the canvas
   return (
     <>
       <canvas

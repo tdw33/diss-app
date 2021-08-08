@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
+// allows fro the route to unique quiz id
 import { Link } from "react-router-dom";
-import { useGlobalContext } from "./TestContext";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
-import { IoRemoveCircleOutline } from "react-icons/io5";
-import { RiDeleteBinLine } from "react-icons/ri";
-import { ImCross } from "react-icons/im";
+//components
 import Loading from "./Loading";
+//deals with deleting quizes
 import axios from "axios";
+// access global functions
+import { useGlobalContext } from "./TestContext";
+//icons used on the page
+import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { ImCross } from "react-icons/im";
 
 function QuizTitle() {
   const { openModal, setLoading, isLoading } = useGlobalContext();
@@ -18,7 +21,7 @@ function QuizTitle() {
   ]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  //fetch the quiz titles
+  //this will fetch the data, based on code from: https://github.com/marinamuse/my-mern-app/blob/master/client/src/App.js
   try {
     useEffect(() => {
       fetch("https://dfa-quiz.herokuapp.com/quizes")
@@ -27,7 +30,7 @@ function QuizTitle() {
             return res.json();
           }
         })
-        .then((jsonRes) => setQuizes(jsonRes));
+        .then((json) => setQuizes(json));
       setLoading();
     }, []);
     console.log(quizes);
@@ -41,12 +44,9 @@ function QuizTitle() {
     return <Loading />;
   }
 
+  // this will delete the quiz from the database
   function handleRemove(id) {
-    const url = "https://dfa-quiz.herokuapp.com/delete/";
-    const url2 = `${url}${id}`;
-    console.log(" the url is " + url2);
     axios.delete("https://dfa-quiz.herokuapp.com/delete/" + id);
-    // axios.delete("http://localhost:5000/delete/" + id);
     window.location.reload();
   }
 
@@ -69,15 +69,15 @@ function QuizTitle() {
       <div className="question-title">
         <h2 className="title">Quiz Selection</h2>
         {quizes
-          .filter((val) => {
+          .filter((quiz) => {
             if (searchTerm === "") {
-              return val;
+              return quiz;
             } else if (
-              val.quiztitle
+              quiz.quiztitle
                 .toLocaleLowerCase()
                 .includes(searchTerm.toLowerCase())
             ) {
-              return val;
+              return quiz;
             }
           })
           .map((quiz, index) => {

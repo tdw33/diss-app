@@ -21,8 +21,6 @@ import ErrorModal from "../components/modals/ErrorModal";
 // setup the syling for materuial UI
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex center",
-    flexWrap: "wrap",
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
     },
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
   },
 }));
 
@@ -77,7 +75,7 @@ function CreateQuestion() {
     },
   ]);
 
-  //fetch the quiz titles
+  //this will fetch the data, based on code from: https://github.com/marinamuse/my-mern-app/blob/master/client/src/App.js
   try {
     useEffect(() => {
       fetch("https://dfa-quiz.herokuapp.com/quizes")
@@ -86,8 +84,7 @@ function CreateQuestion() {
             return res.json();
           }
         })
-        .then((jsonRes) => setQuizes(jsonRes));
-      // console.log(quizes);
+        .then((json) => setQuizes(json));
     }, []);
     console.log(quizes);
   } catch (error) {
@@ -212,7 +209,6 @@ function CreateQuestion() {
                 className: classes.multilineColor,
               }}
               name="title"
-              // id="full-width"
               label="Quiz title"
               placeholder="Regular Expression Quiz 1"
               error={Boolean(errors?.title)}
@@ -224,7 +220,6 @@ function CreateQuestion() {
               <div className={classes.root} key={index}>
                 <TextField
                   name="regEx"
-                  // id="full-width"
                   label="Regular Expression"
                   value={inputTrans.Transistion}
                   placeholder="(ab|b)b*"
@@ -235,7 +230,6 @@ function CreateQuestion() {
                 />
                 <TextField
                   name="alph"
-                  // id="full-width"
                   label="Alphabet"
                   value={inputTrans.Transistion}
                   placeholder="a,b"
@@ -246,7 +240,6 @@ function CreateQuestion() {
                 />
                 <TextField
                   name="hint"
-                  // id="full-width"
                   label="Hint"
                   value={inputTrans.Transistion}
                   placeholder="Check regular expression conversion lecture"

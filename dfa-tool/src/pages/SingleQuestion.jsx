@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
+//route for unique quiz page
 import { useParams } from "react-router-dom";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+//components
 import HTML from "../components/HTML";
 import QuizModal from "../components/modals/QuizModal";
 import MatchingModal from "../components/modals/MatchingModal";
 import NonMatchingModal from "../components/modals/NonMatchingModal";
 import ErrorModal from "../components/modals/ErrorModal";
-import { useGlobalContext } from "../components/TestContext";
-import { AiOutlineQuestionCircle } from "react-icons/ai";
 import info from "../components/modals/modalData";
+//access the global context for its functions
+import { useGlobalContext } from "../components/TestContext";
+// importing all the icons used on the page
+import { AiOutlineQuestionCircle } from "react-icons/ai";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 function SingleQuestion() {
+  // this retrieves all the elements (e.g functions) required from the global context
   const {
     openModal,
     regToDFA,
@@ -20,6 +25,8 @@ function SingleQuestion() {
     openNonmatchModal,
     openErrorModal,
   } = useGlobalContext();
+
+  //these below are setting up empty fields to be filled in
   const [quiz, setQuiz] = useState({
     quiztitle: "",
     questions: [
@@ -30,16 +37,16 @@ function SingleQuestion() {
       },
     ],
   });
-
   const [word1, setword1] = useState("");
   const [word2, setword2] = useState("");
 
+  //this retrieves the unique quiz id passed into this compenent and sets up the url for fetch
   const { id } = useParams();
   const url = "https://dfa-quiz.herokuapp.com/singlequiz/";
   const url2 = `${url}${id}`;
   console.log(" the url is " + url2);
 
-  //this will fetch the data
+  //this will fetch the data, based on code from: https://github.com/marinamuse/my-mern-app/blob/master/client/src/App.js
   try {
     useEffect(() => {
       fetch(url2)
@@ -48,24 +55,27 @@ function SingleQuestion() {
             return res.json();
           }
         })
-        .then((jsonRes) => setQuiz(jsonRes));
-      console.log("i fire once");
-      // setLoad(false);
+        .then((json) => setQuiz(json));
     }, []);
   } catch (error) {
     console.log(error);
     alert(error);
   }
 
-  // This sets up all the questions
+  // This sets up all the questions from the fetched data according to index
   const [index, setIndex] = useState(0);
   const reg = quiz.questions[index].regEx;
   const hint = quiz.questions[index].hint;
-  const alph = quiz.questions[index].alph.replace(",", "").split("");
+  // the alphabet input splices any commas or spaces the user might input
+  const alph = quiz.questions[index].alph.replace(/,| /g, "").split("");
   const quiztitle = quiz.quiztitle;
 
-  // this handle the changing of questions
-  const checkNumber = (number) => {
+  // FUNCTIONS
+
+  // Below handles the changing of questions through adding to the index
+  //and checking the number is in the index range for the quiz
+  // This code is based on elements from here https://github.com/john-smilga/react-projects/blob/master/03-reviews/final/src/Review.js
+  const checkIndex = (number) => {
     if (number > quiz.questions.length - 1) {
       return 0;
     }
@@ -77,15 +87,12 @@ function SingleQuestion() {
 
   const nextQuestion = () => {
     setIndex((index) => {
-      let newIndex = index + 1;
-
-      return checkNumber(newIndex);
+      return checkIndex(index + 1);
     });
   };
   const prevQuestion = () => {
     setIndex((index) => {
-      let newIndex = index - 1;
-      return checkNumber(newIndex);
+      return checkIndex(index - 1);
     });
   };
 
@@ -93,24 +100,26 @@ function SingleQuestion() {
   const handleSubmit = (regex, alph) => {
     var drawnDFA = testlist();
     var questionDFA = regToDFA(regex, alph);
+
+    //each result will cause an open of a modal using a global context function
     try {
       if (decidability(drawnDFA, questionDFA)) {
-        console.log("they are matching");
         var words = drawnDFA.find_equivalence_counterexamples(questionDFA);
         openMatchModal();
       } else {
-        console.log("they are not matching ");
+        // if not matching find the counter words accepted by each DFA and set words
         words = drawnDFA.find_equivalence_counterexamples(questionDFA);
-        console.log("these are the cpunter words: ", words);
         setword1(words[0]);
         setword2(words[1]);
         openNonmatchModal();
       }
     } catch (error) {
+      //this is an invalid DFA fro the regex
       openErrorModal();
     }
   };
 
+  //this is waht is returned to the page
   return (
     <>
       <section>
@@ -123,7 +132,7 @@ function SingleQuestion() {
             <h3 className="questionnumber">Question {index + 1}</h3>
             <div className="underline"></div>
             <h4 className="regex">
-              Please give the equivelent DFA for the following regular
+              Please give the equivalent DFA for the following regular
               expression: {reg}
             </h4>
             <h4 className="regex hint">Hint: {hint} </h4>
@@ -134,7 +143,6 @@ function SingleQuestion() {
               <button className="next-btn" onClick={nextQuestion}>
                 <FaChevronRight />
               </button>
-              {/* <button onClick={handleSubmit(reg, alph)}>Check answer</button> */}
             </div>
             <button
               className="quizbutton"
@@ -145,6 +153,7 @@ function SingleQuestion() {
           </section>
         </div>
       </section>
+      {/* These are the other components that are rendered on the page */}
       <div className="canvasContainer">
         <HTML />
       </div>

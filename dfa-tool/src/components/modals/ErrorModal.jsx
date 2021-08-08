@@ -2,6 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../TestContext";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
+// This code is based on: https://github.com/john-smilga/react-projects/blob/master/12-sidebar-modal/final/src/Modal.js
 const ErrorModal = (props) => {
   const { isErrorModalOpen, closeErrorModal } = useGlobalContext();
 

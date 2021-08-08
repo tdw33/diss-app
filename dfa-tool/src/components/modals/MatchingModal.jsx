@@ -2,6 +2,7 @@ import React from "react";
 import { useGlobalContext } from "../TestContext";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
+// This code is based on: https://github.com/john-smilga/react-projects/blob/master/12-sidebar-modal/final/src/Modal.js
 const MatchingModal = (props) => {
   const { isMatchModalOpen, closeMatchModal } = useGlobalContext();
   console.log("these are the words: ", props.wordsDFA);

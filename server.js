@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-// const bodyParser = require("body-parser");
 const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
@@ -21,10 +20,10 @@ mongoose.connect(uri, {
 });
 const connection = mongoose.connection;
 connection.once("open", () => {
-  console.log("mongoDB database coneciton establish");
+  console.log("mongoDB database coneciton is running");
 });
 
-//dtat schema dn model
+//data schema of model
 
 const quizSchema = {
   quiztitle: String,
@@ -33,10 +32,7 @@ const quizSchema = {
 
 const Quiz = mongoose.model("Quiz", quizSchema);
 
-//API routes
-// app.get("/", function (req, res) {
-//   res.send("express is here");
-// });
+//API
 
 //add quiz
 app.post("/newquiz", function (req, res) {
@@ -64,13 +60,13 @@ app.delete("/delete/:id", function (req, res) {
 // get the quizes
 app.get("/quizes", function (req, res) {
   Quiz.find().then((quizes) => res.json(quizes));
-  // .catch((err) => res.status(400).json("error: " + err));
 });
 
+//get single quiz using id
 app.get("/singlequiz/:id", function (req, res) {
   Quiz.findById(req.params.id).then((quiz) => res.json(quiz));
-  // .catch((err) => res.status(400).json("error: " + err));
 });
+
 // ... other app.use middleware
 app.use(express.static(path.join(__dirname, "dfa-tool", "build")));
 

@@ -56,6 +56,7 @@ const NonMatchingModal = (props) => {
     getword2(questionDFA, setSecondWord);
   }, [questionDFA]);
 
+  // This code is based on: https://github.com/john-smilga/react-projects/blob/master/12-sidebar-modal/final/src/Modal.js
   return (
     <div
       className={`${

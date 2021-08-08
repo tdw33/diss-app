@@ -9,11 +9,13 @@ const CanvasProvider = ({ children }) => {
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // This takes elelemt needed from dfa-lib package: https://www.npmjs.com/package/dfa-lib
   var lib = require("dfa-lib");
   var regex = require("dfa-lib/regex");
   var NFA = lib.NFA;
   var DFA = lib.DFA;
 
+  // used to open various modals
   const openModal = () => {
     setIsModalOpen(true);
   };
