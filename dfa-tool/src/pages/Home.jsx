@@ -1,9 +1,12 @@
 import React from "react";
+
+//components
 import QuizTitles from "../components/QuizTitles";
 import HelpModal from "../components/modals/HelpModal";
 import info from "../components/modals/modalData";
 
 function Home() {
+  // first returns the search field and list of quizes. then helpmodal upon clicking
   return (
     <>
       <QuizTitles />

@@ -1,9 +1,12 @@
 import React from "react";
+
+//components
 import CreateQuestion from "../components/CreateQuestion";
 import HelpModal from "../components//modals/HelpModal";
 import info from "../components/modals/modalData";
 
 const Questions = () => {
+  // first returns the form field and then helpmodal upon clicking
   return (
     <div className="qcontainer">
       <CreateQuestion />

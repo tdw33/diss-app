@@ -11,10 +11,8 @@ import Theory from "./pages/Theory";
 import SingleQuestion from "./pages/SingleQuestion";
 
 function App() {
-  // nav bar
-  // canvas
-  //form entry for answer
-  //questions with hints
+  // below returns the route for each page in the webapp
+
   return (
     <CanvasProvider>
       <Router forceRefresh={true}>

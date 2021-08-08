@@ -1,6 +1,7 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
+//This is based on the ReactLoading NPM package: https://www.npmjs.com/package/react-loading
 function Loading() {
   var bubbles;
   return (
@@ -14,7 +15,6 @@ function Loading() {
           width={150}
         />
       </div>
-      {/* <h3 className="qtitle">LOADING</h3> */}
     </>
   );
 }

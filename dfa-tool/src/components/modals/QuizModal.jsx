@@ -2,8 +2,20 @@ import React from "react";
 import { useGlobalContext } from "../TestContext";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
+// This code is based on: https://github.com/john-smilga/react-projects/blob/master/12-sidebar-modal/final/src/Modal.js
 const QuizModal = () => {
   const { isModalOpen, closeModal } = useGlobalContext();
+  const Evan = (
+    <a href="http://madebyevan.com/fsm/" target="_blank">
+      Evan
+    </a>
+  );
+  const Bakkot = (
+    <a href="https://www.npmjs.com/package/dfa-lib" target="_blank">
+      Bakkot
+    </a>
+  );
+
   return (
     <div
       className={`${
@@ -33,7 +45,7 @@ const QuizModal = () => {
             </li>
             <li className="quiz-list">
               <span className="bold">Add Arrow to state: </span>
-              Press shift and click on state
+              Press shift and click on the state
             </li>
             <li className="quiz-list">
               <span className="bold">Add starting arrow: </span>
@@ -53,7 +65,7 @@ const QuizModal = () => {
             </li>
             <li className="quiz-list">
               <span className="bold">Add Greek letter: </span>
-              Click element and type message with a (\), e.g (\beta)
+              Click the element and type message with a (\), e.g (\beta)
             </li>
           </div>
           <h4>
@@ -61,6 +73,12 @@ const QuizModal = () => {
             DFA should only contain letters from the alphabet for the regular
             expression.
           </h4>
+          <div className="modalLinks">
+            <h5>
+              The canvas code used was created by {Evan} and the checking
+              algorithm was created by {Bakkot}.
+            </h5>
+          </div>
           <button onClick={closeModal} className="modal-button">
             Try Quiz!
           </button>
@@ -74,6 +92,3 @@ const QuizModal = () => {
 };
 
 export default React.memo(QuizModal);
-
-// Type numeric subscript: put an underscore before the number (like "S_0")
-// Type greek letter: put a backslash before it (like "\beta")
