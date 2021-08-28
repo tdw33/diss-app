@@ -9,7 +9,7 @@ const ErrorModal = (props) => {
   return (
     <div
       className={`${
-        isErrorModalOpen ? "modal-overlay show-modal" : "modal-overlay"
+        isErrorModalOpen ? "modal-page reveal-modal" : "modal-page"
       }`}
     >
       <div className="modal-container">
@@ -17,11 +17,11 @@ const ErrorModal = (props) => {
           <h3>{props.title}</h3>
           <div className="underline"></div>
           <h4>{props.mainText}</h4>
-          <button onClick={closeErrorModal} className="modal-button">
+          <button onClick={closeErrorModal} className="main-button">
             {props.button}
           </button>
         </div>
-        <button onClick={closeErrorModal} className="close-modal-btn">
+        <button onClick={closeErrorModal} className="close-btn">
           <AiOutlineCloseCircle></AiOutlineCloseCircle>
         </button>
       </div>

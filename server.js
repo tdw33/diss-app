@@ -5,13 +5,15 @@ const path = require("path");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
+// Parts of the code are based on https://github.com/marinamuse/my-mern-app/blob/master/server.js
+
 const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json()); // To parse the incoming requests with JSON payloads
+app.use(express.json());
 
-//mongoose
+//establish mongoose connection
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -67,7 +69,7 @@ app.get("/singlequiz/:id", function (req, res) {
   Quiz.findById(req.params.id).then((quiz) => res.json(quiz));
 });
 
-// ... other app.use middleware
+//creates the pathways when the app is built
 app.use(express.static(path.join(__dirname, "dfa-tool", "build")));
 
 app.get("*", (req, res) => {

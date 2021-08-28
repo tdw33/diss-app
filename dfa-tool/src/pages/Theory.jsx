@@ -21,12 +21,12 @@ const Theory = () => {
   //This will handle the buttons at the top
   const handleClick = (e) => {
     e.preventDefault();
-    const target = e.target.getAttribute("href");
-    const location = document.querySelector(target).offsetTop;
+    const titleTarget = e.target.getAttribute("href");
+    const titleLocation = document.querySelector(titleTarget).offsetTop;
 
     // using the location made the page will scroll to it
     window.scrollTo({
-      top: location,
+      top: titleLocation,
     });
   };
 
@@ -63,7 +63,7 @@ const Theory = () => {
             be formed as follows:
           </p>
           <div>
-            <li className="list">𝑄 are states and are finite</li>
+            <li className="list">𝑄 are a set of finite states</li>
             <li className="list">Σ is a finite alphabet</li>
             <li className="list"> 𝛿: 𝑄 × Σ → 𝑄 is the transition function</li>
             <li className="list">𝑞0 ∈ 𝑄 is the start state</li>
@@ -92,7 +92,7 @@ const Theory = () => {
             noted as followed:
           </p>
           <div>
-            <li className="list">𝑄 are states and are finite</li>
+            <li className="list">𝑄 are a set of finite states</li>
             <li className="list">Σ is a finite alphabet</li>
             <li className="list">
               𝛿: 𝑄 × Σ𝜀 → 𝑃(𝑄) is the transition function{" "}

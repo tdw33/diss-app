@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-// allows fro the route to unique quiz id
+// allows for the route to unique quiz id
 import { Link } from "react-router-dom";
 //components
 import Loading from "./Loading";
@@ -85,15 +85,15 @@ function QuizTitle() {
               return (
                 <div className="qtitlecontainer" key={index}>
                   <h3>{quiz.quiztitle}</h3>
-                  <div className="test">
+                  <div className="list-btns-container">
                     <Link
                       to={`/SingleQuestion/${quiz._id}`}
-                      className="quizbutton"
+                      className="quiz-button"
                     >
                       Open Quiz
                     </Link>
                     <ImCross
-                      className="removeQuizBtn"
+                      className="remove-Quiz-Btn"
                       onClick={() => handleRemove(quiz._id)}
                     ></ImCross>
                   </div>

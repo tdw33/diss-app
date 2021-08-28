@@ -7,20 +7,18 @@ const HelpModal = (props) => {
   const { isModalOpen, closeModal } = useGlobalContext();
   return (
     <div
-      className={`${
-        isModalOpen ? "modal-overlay show-modal" : "modal-overlay"
-      }`}
+      className={`${isModalOpen ? "modal-page reveal-modal" : "modal-page"}`}
     >
       <div className="modal-container">
         <div className="modal-body">
           <h3>{props.title}</h3>
           <div className="underline"></div>
           <h4>{props.mainText}</h4>
-          <button onClick={closeModal} className="modal-button">
+          <button onClick={closeModal} className="main-button">
             {props.btn}
           </button>
         </div>
-        <button onClick={closeModal} className="close-modal-btn">
+        <button onClick={closeModal} className="close-btn">
           <AiOutlineCloseCircle></AiOutlineCloseCircle>
         </button>
       </div>

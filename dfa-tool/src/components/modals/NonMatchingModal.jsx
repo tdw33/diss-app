@@ -60,7 +60,7 @@ const NonMatchingModal = (props) => {
   return (
     <div
       className={`${
-        isNonmatchModalOpen ? "modal-overlay show-modal" : "modal-overlay"
+        isNonmatchModalOpen ? "modal-page reveal-modal" : "modal-page"
       }`}
     >
       <div className="modal-container">
@@ -68,15 +68,15 @@ const NonMatchingModal = (props) => {
           <h3>{props.title}</h3>
           <div className="underline"></div>
           <h4>{props.mainText}</h4>
-          <div>
+          <div className="comparison">
             <li>{firstWord}</li>
             <li>{secondWord}</li>
           </div>
-          <button onClick={closeNonmatchModal} className="modal-button">
+          <button onClick={closeNonmatchModal} className="main-button">
             {props.button}
           </button>
         </div>
-        <button onClick={closeNonmatchModal} className="close-modal-btn">
+        <button onClick={closeNonmatchModal} className="close-btn">
           <AiOutlineCloseCircle></AiOutlineCloseCircle>
         </button>
       </div>

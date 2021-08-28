@@ -86,14 +86,11 @@ function SingleQuestion() {
   };
 
   const nextQuestion = () => {
-    setIndex((index) => {
-      return checkIndex(index + 1);
-    });
+    setIndex(checkIndex(index + 1));
   };
+
   const prevQuestion = () => {
-    setIndex((index) => {
-      return checkIndex(index - 1);
-    });
+    setIndex(checkIndex(index - 1));
   };
 
   //checks the drawn DFA to the regular expression
@@ -123,13 +120,13 @@ function SingleQuestion() {
   return (
     <>
       <section>
-        <div className="qcontainer">
+        <div className="ques-container">
           <button onClick={openModal} className="btn">
             <AiOutlineQuestionCircle></AiOutlineQuestionCircle>
           </button>
           <h2 className="title">{quiztitle}</h2>
           <section className="questions">
-            <h3 className="questionnumber">Question {index + 1}</h3>
+            <h3 className="question-number">Question {index + 1}</h3>
             <div className="underline"></div>
             <h4 className="regex">
               Please give the equivalent DFA for the following regular
@@ -137,7 +134,7 @@ function SingleQuestion() {
             </h4>
             <h4 className="regex hint">Hint: {hint} </h4>
             <div className="button-container">
-              <button className="prev-btn" onClick={prevQuestion}>
+              <button className="back-btn" onClick={prevQuestion}>
                 <FaChevronLeft />
               </button>
               <button className="next-btn" onClick={nextQuestion}>
@@ -145,7 +142,7 @@ function SingleQuestion() {
               </button>
             </div>
             <button
-              className="quizbutton"
+              className="quiz-button"
               onClick={() => handleSubmit(reg, alph)}
             >
               Check Answer
@@ -154,7 +151,7 @@ function SingleQuestion() {
         </div>
       </section>
       {/* These are the other components that are rendered on the page */}
-      <div className="canvasContainer">
+      <div className="canvas-container">
         <HTML />
       </div>
       <QuizModal />

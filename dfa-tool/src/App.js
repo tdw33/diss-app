@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 //components
 import Navbar from "./components/Navbar";
-import { CanvasProvider } from "./components/TestContext";
+import { GlobalProvider } from "./components/TestContext";
 //pages
 import Home from "./pages/Home";
 import Quesitons from "./pages/Questions";
@@ -14,7 +14,7 @@ function App() {
   // below returns the route for each page in the webapp
 
   return (
-    <CanvasProvider>
+    <GlobalProvider>
       <Router forceRefresh={true}>
         <Navbar />
         <Switch>
@@ -32,7 +32,7 @@ function App() {
           </Route>
         </Switch>
       </Router>
-    </CanvasProvider>
+    </GlobalProvider>
   );
 }
 

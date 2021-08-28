@@ -4,34 +4,32 @@ import { Link } from "react-router-dom";
 //import the sidebar icon
 import { GoThreeBars } from "react-icons/go";
 
+//This code is based on this: https://github.com/john-smilga/react-projects/blob/master/11-navbar/final/src/Navbar.js
 function Navbar() {
   const [showLinks, setShowLinks] = useState(false);
-  const linksContainerRef = useRef(null);
-  const linksRef = useRef(null);
+  const linksContainerSize = useRef(null);
+  const linksHeight = useRef(null);
 
   useEffect(() => {
-    const LinksHeight = linksRef.current.getBoundingClientRect().height;
+    const allLinks = linksHeight.current.getBoundingClientRect().height;
     if (showLinks) {
-      linksContainerRef.current.style.height = `${LinksHeight}px`;
+      linksContainerSize.current.style.height = `${allLinks}px`;
     } else {
-      linksContainerRef.current.style.height = `0px`;
+      linksContainerSize.current.style.height = `0px`;
     }
   }, [showLinks]);
 
   return (
     <nav>
-      <div className="nav-center">
-        <div className="nav-header">
+      <div className="nav-full">
+        <div className="nav-bar">
           <h3 className="lefty">Automata Quiz</h3>
-          <button
-            className="nav-toggle"
-            onClick={() => setShowLinks(!showLinks)}
-          >
+          <button className="nav-btn" onClick={() => setShowLinks(!showLinks)}>
             <GoThreeBars />
           </button>
         </div>
-        <div className="links-container" ref={linksContainerRef}>
-          <ul className="links" ref={linksRef}>
+        <div className="links-container" ref={linksContainerSize}>
+          <ul className="links" ref={linksHeight}>
             <li>
               <Link to="/">home</Link>
             </li>
