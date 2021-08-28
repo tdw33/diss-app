@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 
 const TestContext = React.createContext();
 
-const CanvasProvider = ({ children }) => {
+const GlobalProvider = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isMatchModalOpen, setIsMatchModalOpen] = useState(false);
   const [isNonmatchModalOpen, setIsNonmatchModalOpen] = useState(false);
@@ -156,4 +156,4 @@ export const useGlobalContext = () => {
   return useContext(TestContext);
 };
 
-export { TestContext, CanvasProvider };
+export { TestContext, GlobalProvider };

@@ -18,9 +18,7 @@ const QuizModal = () => {
 
   return (
     <div
-      className={`${
-        isModalOpen ? "modal-overlay show-modal" : "modal-overlay"
-      }`}
+      className={`${isModalOpen ? "modal-page reveal-modal" : "modal-page"}`}
     >
       <div className="modal-container">
         <div className="modal-body">
@@ -37,7 +35,7 @@ const QuizModal = () => {
             </li>
             <li className="quiz-list">
               <span className="bold">Make accepting state: </span>
-              Double click on existing state
+              Double click on an existing state
             </li>
             <li className="quiz-list">
               <span className="bold">Add Arrow between states: </span>
@@ -73,17 +71,17 @@ const QuizModal = () => {
             DFA should only contain letters from the alphabet for the regular
             expression.
           </h4>
-          <div className="modalLinks">
+          <div className="modal-Links">
             <h5>
               The canvas code used was created by {Evan} and the checking
               algorithm was created by {Bakkot}.
             </h5>
           </div>
-          <button onClick={closeModal} className="modal-button">
+          <button onClick={closeModal} className="main-button">
             Try Quiz!
           </button>
         </div>
-        <button onClick={closeModal} className="close-modal-btn">
+        <button onClick={closeModal} className="close-btn">
           <AiOutlineCloseCircle></AiOutlineCloseCircle>
         </button>
       </div>

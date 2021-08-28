@@ -5,12 +5,11 @@ import { AiOutlineCloseCircle } from "react-icons/ai";
 // This code is based on: https://github.com/john-smilga/react-projects/blob/master/12-sidebar-modal/final/src/Modal.js
 const MatchingModal = (props) => {
   const { isMatchModalOpen, closeMatchModal } = useGlobalContext();
-  console.log("these are the words: ", props.wordsDFA);
 
   return (
     <div
       className={`${
-        isMatchModalOpen ? "modal-overlay show-modal" : "modal-overlay"
+        isMatchModalOpen ? "modal-page reveal-modal" : "modal-page"
       }`}
     >
       <div className="modal-container">
@@ -18,11 +17,11 @@ const MatchingModal = (props) => {
           <h3>{props.title}</h3>
           <div className="underline"></div>
           <h4>{props.mainText}</h4>
-          <button onClick={closeMatchModal} className="modal-button">
+          <button onClick={closeMatchModal} className="main-button">
             {props.button}
           </button>
         </div>
-        <button onClick={closeMatchModal} className="close-modal-btn">
+        <button onClick={closeMatchModal} className="close-btn">
           <AiOutlineCloseCircle></AiOutlineCloseCircle>
         </button>
       </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../index.css";
+// import form elements from "@material-ui";
 import {
   FormControl,
   TextField,
@@ -13,6 +14,7 @@ import RemoveIcon from "@material-ui/icons/Remove";
 import AddIcon from "@material-ui/icons/Add";
 // import Container from "@material-ui/core/Container";
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
+// import for both global functions and components
 import { useGlobalContext } from "./TestContext";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import info from "./modals/modalData";
@@ -48,13 +50,13 @@ const theme = createMuiTheme({
   },
 });
 
-//this start the fucntion
+//this is the start of the fucntion
 
 function CreateQuestion() {
   const { openModal, openErrorModal } = useGlobalContext();
   const [qLength, setQLength] = useState(1);
   const classes = useStyles();
-  const [inputTrans, setInputTrans] = useState([
+  const [questions, setQuestions] = useState([
     {
       regEx: "",
       alph: "",
@@ -104,14 +106,14 @@ function CreateQuestion() {
   }
 
   const handleChangeInput = (index, event) => {
-    const values = [...inputTrans];
+    const values = [...questions];
     values[index][event.target.name] = event.target.value;
-    setInputTrans(values);
+    setQuestions(values);
   };
 
   const handleAddFields = () => {
-    setInputTrans([
-      ...inputTrans,
+    setQuestions([
+      ...questions,
       {
         regEx: "",
         alph: "",
@@ -122,10 +124,10 @@ function CreateQuestion() {
   };
 
   const handleRemoveFields = (index) => {
-    const values = [...inputTrans];
-    values.splice(index, 1);
-    setInputTrans(values);
     setQLength(qLength - 1);
+    const values = [...questions];
+    values.splice(index, 1);
+    setQuestions(values);
   };
 
   // handles the form validation
@@ -143,7 +145,7 @@ function CreateQuestion() {
         titleError = "There is a quiz with that title already";
       }
     });
-    inputTrans.forEach((val) => {
+    questions.forEach((val) => {
       if (val.regEx === "") {
         regexError = "This field is required";
       }
@@ -176,7 +178,7 @@ function CreateQuestion() {
         hint: "",
       });
       const Quizquestions = [];
-      inputTrans.forEach((quesiton) => {
+      questions.forEach((quesiton) => {
         Quizquestions.push(quesiton);
       });
       //creat the new quiz
@@ -216,12 +218,12 @@ function CreateQuestion() {
               margin="normal"
               onChange={handleTitle}
             />
-            {inputTrans.map((inputTrans, index) => (
+            {questions.map((questions, index) => (
               <div className={classes.root} key={index}>
                 <TextField
                   name="regEx"
                   label="Regular Expression"
-                  value={inputTrans.Transistion}
+                  value={questions.regex}
                   placeholder="(ab|b)b*"
                   error={Boolean(errors?.regex)}
                   helperText={errors?.regex}
@@ -231,7 +233,7 @@ function CreateQuestion() {
                 <TextField
                   name="alph"
                   label="Alphabet"
-                  value={inputTrans.Transistion}
+                  value={questions.alph}
                   placeholder="a,b"
                   error={Boolean(errors?.alph)}
                   helperText={errors?.alph}
@@ -241,7 +243,7 @@ function CreateQuestion() {
                 <TextField
                   name="hint"
                   label="Hint"
-                  value={inputTrans.Transistion}
+                  value={questions.hint}
                   placeholder="Check regular expression conversion lecture"
                   error={Boolean(errors?.hint)}
                   helperText={errors?.hint}
@@ -251,7 +253,7 @@ function CreateQuestion() {
                 <IconButton
                   className="formBtn"
                   disabled={qLength === 1}
-                  onClick={handleRemoveFields}
+                  onClick={() => handleRemoveFields(index)}
                 >
                   <RemoveIcon />
                 </IconButton>
